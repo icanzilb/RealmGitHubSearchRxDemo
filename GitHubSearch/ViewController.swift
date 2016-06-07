@@ -60,7 +60,7 @@ class ViewController: UIViewController {
             .map(NSURL.gitHubSearch)
             .doOnNext { _ in UIApplication.sharedApplication().networkActivityIndicatorVisible = true }
             .flatMapLatest { url in
-                return NSURLSession.sharedSession().rx_JSON(url)
+                return NSURLSession.sharedSession().rx_JSON(url).catchErrorJustReturn([])
             }
             .doOnNext { _ in UIApplication.sharedApplication().networkActivityIndicatorVisible = false }
             .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
