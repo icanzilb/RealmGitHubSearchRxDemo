@@ -43,7 +43,6 @@ class ViewController: UIViewController {
     private let bag = DisposeBag()
     private var resultsBag = DisposeBag()
 
-    private let realm = try! Realm()
     private var repos: Results<Repo>?
 
     //MARK: - Bind UI
@@ -99,6 +98,7 @@ class ViewController: UIViewController {
             return
         }
         
+        let realm = try! Realm()
         repos = realm.objects(Repo).filter("full_name CONTAINS[c] %@ AND language = %@", term, language)
         repos!.asObservableChangeset()
             .subscribeNext {[weak self] repos, changes in
