@@ -62,6 +62,7 @@ class ViewController: UIViewController {
             .flatMapLatest { url in
                 return NSURLSession.sharedSession().rx_JSON(url).catchErrorJustReturn([])
             }
+            .filter {$0.count > 0}
             .doOnNext { _ in UIApplication.sharedApplication().networkActivityIndicatorVisible = false }
             .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
             .map {json -> [Repo] in
@@ -70,12 +71,7 @@ class ViewController: UIViewController {
                 
                 return items.map {Repo(value: $0)}
             }
-            .subscribeNext {repos in
-                let realm = try! Realm()
-                try! realm.write {
-                    realm.add(repos, update: true)
-                }
-            }
+            .subscribe(Realm.rx_add(Realm.Configuration.defaultConfiguration, update: true))
             .addDisposableTo(bag)
         
         //bind results to table
