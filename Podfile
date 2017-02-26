@@ -1,9 +1,9 @@
 use_frameworks!
 
 target 'GitHubSearch' do
-  pod 'RxSwift', '2.4'
-  pod 'RxCocoa', '2.4'
+  pod 'RxSwift', '~> 3.2'
+  pod 'RxCocoa', '~> 3.2'
 
-  pod 'RealmSwift', '~> 1.0.0'
-  pod 'RxRealm', '0.1.8'
+  pod 'RealmSwift', '2.4'
+  pod 'RxRealm', '0.5.1'
 end
